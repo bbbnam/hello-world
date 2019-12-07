@@ -1,0 +1,32 @@
+doctype html
+html 
+    head
+        meta(charset='utf-8')
+        script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
+        script.
+          $(document).ready(function(){
+          $("#content a").on('click', function(e){
+              e.preventDefault();
+              var href = $(this).attr('href');
+              //var data = $('input[name=quote]').val();
+              $.ajax({
+                  type: 'get',
+                  url: '/readFile/'+href,
+                  //- data: data,
+                  //dataType: 'json'
+              })
+              .done(function(data){
+                  $('#showContent').html(data.fileData);
+              });
+              });
+          });
+    body
+        h1 Hello Pug
+        #content
+          ul
+            each val, index in con1
+              a(href= val, target= "blank") 
+                li= val
+        #showContent
+        if(fileData)
+           p #{fileData}
