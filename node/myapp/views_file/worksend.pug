@@ -5,28 +5,54 @@ html
         script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js')
         script.
           $(document).ready(function(){
-          $("#content a").on('click', function(e){
-              e.preventDefault();
-              var href = $(this).attr('href');
-              //var data = $('input[name=quote]').val();
-              $.ajax({
-                  type: 'get',
-                  url: '/readFile/'+href,
-                  //- data: data,
-                  //dataType: 'json'
-              })
-              .done(function(data){
-                  $('#showContent').html(data.fileData);
+            $("#sendForm a").on('click', function(e){
+                e.preventDefault();
+                var fileName = $(this).attr('href');
+                //var data = $('input[name=quote]').val();
+                $.ajax({
+                    type: 'get',
+                    url: '/readFile/'+fileName,
+                    //- data: data,
+                    //dataType: 'json'
+                })
+                .done(function(data){
+                    $('#workSendArea').html(data.fileData);
+                });
               });
-              });
+            $("#sendBtn").on('click', function(e){
+                e.preventDefault();
+                var data = $('#workSendArea').val();
+                $.ajax({
+                    type: 'post',
+                    url: '/sendMsg',
+                    data: {conts : data},
+                    dataType: 'text'
+                })
+                .done(function(data){
+                    //- $('#workSendArea').html(data.fileData);
+                    if(data === 'success'){
+                      alert('전송완료');
+                    } else {
+                      alert('실패');
+                    }
+                });
+            });
           });
+        style.
+          textarea {
+            float : left;
+            margin-right : 40px;
+          }
     body
         h1 Hello Pug
         #content
+        form(id="sendForm")
+          textarea(id="workSendArea", name="conts", cols="50", rows="40")
+          input(type="button", id="sendBtn" value="제출")
           ul
             each val, index in con1
               a(href= val, target= "blank") 
                 li= val
-        #showContent
-        if(fileData)
-           p #{fileData}
+        
+        //- if(fileData)
+        //-    p #{fileData}
