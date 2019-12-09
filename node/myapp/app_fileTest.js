@@ -60,7 +60,19 @@ app.get('/',function(req,res){
         // 그냥 pug에서 = 이후로 쓰는 값이 키가 된다.
     });
 });
-    
+
+app.get('/openFolder/:folderName',function(req,res){
+    var folderName = req.params.folderName;
+    var data = "";
+    console.log("path>>"+path+folderName);
+    fs.readdir(path+folderName,function(err,dataList){
+        console.log(dataList);
+        // res.json({fileData : fData});
+    });
+
+});
+
+
 app.get('/readFile/:fileName',function(req,res){
     var fileName = req.params.fileName;
     var data = "";
@@ -98,7 +110,15 @@ app.post('/sendMsg',function(req,res){
         fs.mkdirSync(writePath);
       }
     }
-    
+    var sendOptions = { uri: "https://teamroom.nate.com/api/webhook/3b08ecbb/Z8AfIdCuSNT9MsMTJiM87a5W",
+                        method: "POST",
+                        form: { content: contents } };
+
+    request(sendOptions, function(err, res, body) { 
+        if(err) throw err;
+        console.log(body); 
+    });
+
     fs.writeFile(writePath+'/'+getToday()+'.txt', contents, 'utf8', function(err){
         if(err){
             res.status(500).send('Internal Server Error');
