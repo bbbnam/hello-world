@@ -1,17 +1,4 @@
 var express = require('express');
-<<<<<<< HEAD
-var app = express();
-app.get('/', function(req, res){
-    res.send('Hello home page');
-});
-app.get('/login', function(req, res){
-    res.send('Login please');
-});
-app.listen(3000, function(){
-    console.log('Connected 3000 port!');
-});
-
-=======
 var bodyParser = require('body-parser');
 var app = express();
 
@@ -90,4 +77,3 @@ app.get('/route', function(req,res){
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!');
 });
->>>>>>> origin/home

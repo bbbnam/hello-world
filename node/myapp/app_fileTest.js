@@ -1,10 +1,10 @@
-var fs = require('fs');
 var express = require('express');
 var bodyParser = require('body-parser');
+var fs = require('fs');
 var app = express();
 //var path ="/mnt/c/Users/JRhome/Documents/hello-world/node/myapp";   //for WSL
-var path ="C:/Users/JRhome/Documents/hello-world/node"; //for Windows
-var writePath ="C:/Users/JRhome/Documents/hello-world/node/workFolder"; //for Windows
+var path ="C:/Users/pax_it_dev/Documents/hello-world/node"; //for Windows
+var writePath ="C:/Users/pax_it_dev/Documents/hello-world/node/workFolder"; //for Windows
 // app.use(express.json());
 app.use(bodyParser.urlencoded({ extended : false}));
 app.locals.pretty = true;
@@ -17,14 +17,44 @@ app.listen(3000,function(){
 });
 
 app.get('/',function(req,res){
-    fs.readdir(path,function(err,data){
+    var returnList = [];
+    fs.readdir(path,function(err,dataList){
         var returnStr = "";
         if(err){
             console.log('에러');
             return;
         }
-      
-        res.render('worksend', {con1 : data, filePath : path}); 
+        var index = 0;
+        dataList.forEach(function(file){ 
+            var gubun ='';
+            try {
+                var stats = fs.statSync(path+'/'+file); // for문 돌면서 순서대로 상태값 확인이 되어야 함.
+                //console.log('stats>>'+stats.isFile());
+                if (stats.isFile()){
+                    gubun = 'File';
+                }
+                if (stats.isDirectory()){
+                    gubun = 'Dir';
+                }
+
+            } catch (err) {
+                console.log('error');
+            }    
+            // fs.stat(path+'/'+file,function(err, stats){ 
+            //      if(err) throw err; 
+            //     if (stats.isFile()){
+            //         console.log('◎ fileName:'+stats.isFile());
+            //     }
+            //     if (stats.isDirectory()){
+            //         console.log('● DirName:'+stats.isDirectory());
+            //     }
+            //      console.log('isFile : '+stats.isFile()+' , isDir : '+stats.isDirectory()); 
+            //      returnList[index] = {fileName : file, isDir : stats.isDirectory()};
+            // }); 
+            returnList[index] = { fileName : file, gubun : gubun};
+            index++;
+        });
+        res.render('worksend', {con1 : returnList, filePath : path}); 
         // json 키 값은 html의 아이디나 네임, 클래스명이 아니다
         // 그냥 pug에서 = 이후로 쓰는 값이 키가 된다.
     });

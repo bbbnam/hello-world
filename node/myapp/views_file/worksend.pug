@@ -51,8 +51,11 @@ html
           input(type="button", id="sendBtn" value="제출")
           ul
             each val, index in con1
-              a(href= val, target= "blank") 
-                li= val
+              if val.gubun !== 'Dir'
+                a(href= val.fileName, gubun= val.gubun, target= "blank") 
+                  li= val.fileName
+              else
+                  div= val.fileName
         
         //- if(fileData)
         //-    p #{fileData}
