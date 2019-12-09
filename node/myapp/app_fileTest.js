@@ -1,5 +1,6 @@
 var express = require('express');
 var bodyParser = require('body-parser');
+var request = require('request');
 var fs = require('fs');
 var app = express();
 //var path ="/mnt/c/Users/JRhome/Documents/hello-world/node/myapp";   //for WSL
@@ -86,6 +87,7 @@ var getToday = function(){
 app.post('/sendMsg',function(req,res){
     var contents = req.body.conts;
     var data = "";
+    
     try { //동기식 폴더 확인
         fs.statSync(writePath);
         console.log('file or directory exists');
@@ -96,7 +98,7 @@ app.post('/sendMsg',function(req,res){
         fs.mkdirSync(writePath);
       }
     }
-
+    
     fs.writeFile(writePath+'/'+getToday()+'.txt', contents, 'utf8', function(err){
         if(err){
             res.status(500).send('Internal Server Error');
