@@ -1,0 +1,22 @@
+{
+  "name": "hello-world",
+  "version": "1.0.0",
+  "description": "server side javascript tutorials",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bbbnam/hello-world.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bbbnam/hello-world/issues"
+  },
+  "homepage": "https://github.com/bbbnam/hello-world#readme",
+  "dependencies": {
+    "underscore": "^1.9.1"
+  }
+}
